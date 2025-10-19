@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="vi-VN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>小智服务器测试页面</title>
+    <title>Trang kiểm tra máy chủ Xiaozhi</title>
     <link rel="stylesheet" href="test_page.css">
     <style>
         #fileProtocolWarning {
@@ -58,23 +58,23 @@
         }
     </style>
     <script>
-        // 检测是否使用file://协议打开
+        // Phát hiện xem có đang sử dụng giao thức file:// để mở không
         if (window.location.protocol === 'file:') {
             document.addEventListener('DOMContentLoaded', function () {
-                // 创建警告框
+                // Tạo hộp cảnh báo
                 const warningDiv = document.createElement('div');
                 warningDiv.id = 'fileProtocolWarning';
                 warningDiv.innerHTML = `
-                    <h2>⚠️ 警告：请使用HTTP服务器打开此页面</h2>
-                    <p>您当前使用的是本地文件方式打开页面（file://协议），这可能导致页面功能异常。</p>
-                    <p>您可以使用nginx映射启动测试页面，也可以请按照以下步骤使用python启动测试http服务：</p>
+                    <h2>⚠️ Cảnh báo: Vui lòng sử dụng máy chủ HTTP để mở trang này</h2>
+                    <p>Bạn hiện đang sử dụng cách mở tệp cục bộ (giao thức file://), điều này có thể gây ra lỗi chức năng trang.</p>
+                    <p>Bạn có thể sử dụng ánh xạ nginx để khởi động trang kiểm tra, hoặc theo các bước sau để sử dụng python khởi động dịch vụ http kiểm tra:</p>
                     <ol>
-                        <li>打开命令行终端</li>
-                        <li>命令行进入到 xiaozhi-server/test 目录</li>
-                        <li>执行以下命令启动HTTP服务器：</li>
+                        <li>Mở terminal dòng lệnh</li>
+                        <li>Chuyển đến thư mục xiaozhi-server/test</li>
+                        <li>Thực thi lệnh sau để khởi động máy chủ HTTP:</li>
                     </ol>
                     <pre>python -m http.server 8006</pre>
-                    <p>然后在浏览器中访问：<strong>http://localhost:8006/test_page.html</strong></p>
+                    <p>Sau đó truy cập trong trình duyệt: <strong>http://localhost:8006/test_page.html</strong></p>
                 `;
                 document.body.appendChild(warningDiv);
             });
@@ -84,39 +84,39 @@
 
 <body>
     <div class="container">
-        <h1>小智服务器测试页面</h1>
+        <h1>Trang kiểm tra máy chủ Xiaozhi</h1>
 
         <div id="scriptStatus" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-            正在加载Opus库...
+            Đang tải thư viện Opus...
         </div>
 
-        <!-- 添加配置面板 -->
+        <!-- Thêm bảng cấu hình -->
         <div class="section">
             <h2>
-                设备配置
+                Cấu hình thiết bị
                 <span class="device-info">
                     <span>MAC: <strong id="displayMac"></strong></span>
-                    <span>客户端: <strong id="displayClient">web_test_client</strong></span>
+                    <span>Client: <strong id="displayClient">web_test_client</strong></span>
                 </span>
-                <button class="toggle-button" id="toggleConfig">编辑</button>
+                <button class="toggle-button" id="toggleConfig">Chỉnh sửa</button>
             </h2>
             <div class="config-panel" id="configPanel">
                 <div class="control-panel">
                     <div class="config-item">
-                        <label for="deviceMac">设备MAC:</label>
-                        <input type="text" id="deviceMac" placeholder="设备MAC地址">
+                        <label for="deviceMac">MAC thiết bị:</label>
+                        <input type="text" id="deviceMac" placeholder="Địa chỉ MAC thiết bị">
                     </div>
                     <div class="config-item">
-                        <label for="deviceName">设备名称:</label>
-                        <input type="text" id="deviceName" value="Web测试设备" placeholder="设备名称">
+                        <label for="deviceName">Tên thiết bị:</label>
+                        <input type="text" id="deviceName" value="Thiết bị kiểm tra Web" placeholder="Tên thiết bị">
                     </div>
                     <div class="config-item">
-                        <label for="clientId">客户端ID:</label>
-                        <input type="text" id="clientId" value="web_test_client" placeholder="客户端ID">
+                        <label for="clientId">ID Client:</label>
+                        <input type="text" id="clientId" value="web_test_client" placeholder="ID Client">
                     </div>
                     <div class="config-item">
-                        <label for="token">认证Token:</label>
-                        <input type="text" id="token" value="your-token1" placeholder="认证Token">
+                        <label for="token">Token xác thực:</label>
+                        <input type="text" id="token" value="your-token1" placeholder="Token xác thực">
                     </div>
                 </div>
             </div>
@@ -124,53 +124,53 @@
 
         <div class="section">
             <h2>
-                连接信息
+                Thông tin kết nối
                 <span class="connection-status">
-                    <span>OTA: <span id="otaStatus" class="status">ota未连接</span></span>
-                    <span>WS: <span id="connectionStatus" class="status">ws未连接</span></span>
+                    <span>OTA: <span id="otaStatus" class="status">OTA chưa kết nối</span></span>
+                    <span>WS: <span id="connectionStatus" class="status">WS chưa kết nối</span></span>
                 </span>
             </h2>
             <div class="connection-controls">
                 <input type="text" id="otaUrl" value="http://127.0.0.1:8002/xiaozhi/ota/"
-                    placeholder="OTA服务器地址，如：http://127.0.0.1:8002/xiaozhi/ota/" />
-                <input type="text" id="serverUrl" value="" readonly disabled placeholder="点击连接按钮后，自动从OTA接口获取" />
-                <button id="connectButton">连接</button>
+                    placeholder="Địa chỉ máy chủ OTA, ví dụ: http://127.0.0.1:8002/xiaozhi/ota/" />
+                <input type="text" id="serverUrl" value="" readonly disabled placeholder="Sau khi nhấn nút kết nối, tự động lấy từ giao diện OTA" />
+                <button id="connectButton">Kết nối</button>
             </div>
         </div>
 
         <div class="section">
             <div class="tabs">
-                <button class="tab active" data-tab="text">文本消息</button>
-                <button class="tab" data-tab="voice">语音消息</button>
+                <button class="tab active" data-tab="text">Tin nhắn văn bản</button>
+                <button class="tab" data-tab="voice">Tin nhắn thoại</button>
             </div>
 
             <div class="tab-content active" id="textTab">
                 <div class="message-input">
-                    <input type="text" id="messageInput" placeholder="输入消息..." disabled>
-                    <button id="sendTextButton" disabled>发送</button>
+                    <input type="text" id="messageInput" placeholder="Nhập tin nhắn..." disabled>
+                    <button id="sendTextButton" disabled>Gửi</button>
                 </div>
             </div>
 
             <div class="tab-content" id="voiceTab">
                 <div class="audio-controls">
-                    <button id="recordButton" class="record-button" disabled>开始录音</button>
+                    <button id="recordButton" class="record-button" disabled>Bắt đầu ghi âm</button>
                 </div>
                 <canvas id="audioVisualizer" class="audio-visualizer"></canvas>
             </div>
         </div>
 
         <div class="section">
-            <h2>会话记录</h2>
+            <h2>Lịch sử hội thoại</h2>
             <div class="flex-container">
                 <div id="conversation" class="conversation"></div>
                 <div id="logContainer">
-                    <div class="log-entry log-info">准备就绪，请连接服务器开始测试...</div>
+                    <div class="log-entry log-info">Sẵn sàng, vui lòng kết nối máy chủ để bắt đầu kiểm tra...</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Opus解码库 -->
+    <!-- Thư viện giải mã Opus -->
     <script src="libopus.js"></script>
 
     <script type="module">
@@ -180,10 +180,10 @@
         import { addMessage } from './js/document.js'
         import BlockingQueue from './js/utils/BlockingQueue.js'
         import { createStreamingContext } from './js/StreamingContext.js'
-        // 需要加载的脚本列表 - 移除Opus依赖
+        // Danh sách script cần tải - loại bỏ phụ thuộc Opus
         const scriptFiles = [];
 
-        // 脚本加载状态
+        // Trạng thái tải script
         const scriptStatus = {
             loading: 0,
             loaded: 0,
@@ -191,7 +191,7 @@
             total: scriptFiles.length
         };
 
-        // 全局变量
+        // Biến toàn cục
         let websocket = null;
         let mediaRecorder = null;
         let audioContext = null;
@@ -202,23 +202,23 @@
         let visualizerContext = visualizerCanvas.getContext('2d');
         let audioQueue = [];
         let isPlaying = false;
-        let opusDecoder = null; // Opus解码器
-        let visualizationRequest = null; // 动画帧请求ID
+        let opusDecoder = null; // Bộ giải mã Opus
+        let visualizationRequest = null; // ID yêu cầu khung hình hoạt ảnh
 
-        // 音频流缓冲相关
-        let audioBuffers = []; // 用于存储接收到的所有音频数据
-        let totalAudioSize = 0; // 跟踪累积的音频大小
+        // Liên quan đến bộ đệm luồng âm thanh
+        let audioBuffers = []; // Dùng để lưu trữ tất cả dữ liệu âm thanh nhận được
+        let totalAudioSize = 0; // Theo dõi kích thước âm thanh tích lũy
 
-        let audioBufferQueue = [];     // 存储接收到的音频包
-        let isAudioPlaying = false;    // 是否正在播放音频
-        const BUFFER_THRESHOLD = 3;    // 缓冲包数量阈值，至少累积3个包再开始播放
-        const MIN_AUDIO_DURATION = 0.1; // 最小音频长度(秒)，小于这个长度的音频会被合并
-        let streamingContext = null;   // 音频流上下文
-        const SAMPLE_RATE = 16000;     // 采样率
-        const CHANNELS = 1;            // 声道数
-        const FRAME_SIZE = 960;        // 帧大小
+        let audioBufferQueue = [];     // Lưu trữ các gói âm thanh nhận được
+        let isAudioPlaying = false;    // Có đang phát âm thanh không
+        const BUFFER_THRESHOLD = 3;    // Ngưỡng số lượng gói đệm, tích lũy ít nhất 3 gói mới bắt đầu phát
+        const MIN_AUDIO_DURATION = 0.1; // Độ dài âm thanh tối thiểu (giây), âm thanh ngắn hơn sẽ được hợp nhất
+        let streamingContext = null;   // Ngữ cảnh luồng âm thanh
+        const SAMPLE_RATE = 16000;     // Tỷ lệ lấy mẫu
+        const CHANNELS = 1;            // Số kênh
+        const FRAME_SIZE = 960;        // Kích thước khung
 
-        // DOM元素
+        // Phần tử DOM
         const connectButton = document.getElementById('connectButton');
         const serverUrlInput = document.getElementById('serverUrl');
         const connectionStatus = document.getElementById('connectionStatus');
@@ -235,12 +235,12 @@
                     sampleRate: SAMPLE_RATE,
                     latencyHint: 'interactive'
                 });
-                log('创建音频上下文，采样率: ' + SAMPLE_RATE + 'Hz', 'debug');
+                log('Tạo ngữ cảnh âm thanh, tỷ lệ lấy mẫu: ' + SAMPLE_RATE + 'Hz', 'debug');
             }
             return audioContext;
         }
 
-        // 初始化可视化器
+        // Khởi tạo bộ hiển thị trực quan
         function initVisualizer() {
             visualizerCanvas.width = visualizerCanvas.clientWidth;
             visualizerCanvas.height = visualizerCanvas.clientHeight;
@@ -248,7 +248,7 @@
             visualizerContext.fillRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
         }
 
-        // 绘制音频可视化效果
+        // Vẽ hiệu ứng hiển thị trực quan âm thanh
         function drawVisualizer(dataArray) {
             visualizationRequest = requestAnimationFrame(() => drawVisualizer(dataArray));
 
@@ -275,30 +275,30 @@
 
         const queue = new BlockingQueue();
 
-        // 启动缓存进程
+        // Khởi động tiến trình bộ đệm
         async function startAudioBuffering() {
-            log("开始音频缓冲...", 'info');
+            log("Bắt đầu đệm âm thanh...", 'info');
 
-            // 先尝试初始化解码器，以便在播放时已准备好
+            // Trước tiên thử khởi tạo bộ giải mã để sẵn sàng khi phát
             initOpusDecoder().catch(error => {
-                log(`预初始化Opus解码器失败: ${error.message}`, 'warning');
-                // 继续缓冲，我们会在播放时再次尝试初始化
+                log(`Khởi tạo trước bộ giải mã Opus thất bại: ${error.message}`, 'warning');
+                // Tiếp tục đệm, chúng ta sẽ thử khởi tạo lại khi phát
             });
             const timeout = 300;
             while (true) {
-                // 每次数据空的时候等三条数据
+                // Mỗi lần dữ liệu trống thì đợi ba gói dữ liệu
                 const packets = await queue.dequeue(
-                    3,                       // 至少 3 条
-                    timeout,                     // 最多等 300 ms
-                    (count) => {             // 超时额外回调
-                        log(`缓冲超时，当前缓冲包数: ${count}，开始播放`, 'info');
+                    3,                       // tối thiểu 3 gói
+                    timeout,                     // tối đa đợi 300 ms
+                    (count) => {             // callback bổ sung khi timeout
+                        log(`Hết thời gian đệm, số gói đệm hiện tại: ${count}, bắt đầu phát`, 'info');
                     }
                 );
                 if (packets.length) {
-                    log(`已缓冲 ${packets.length} 个音频包，开始播放`, 'info');
+                    log(`Đã đệm ${packets.length} gói âm thanh, bắt đầu phát`, 'info');
                     streamingContext.pushAudioBuffer(packets)
                 }
-                // 50毫秒里，有多少给多少
+                // Trong 50ms, có bao nhiêu cho bấy nhiêu
                 while (true) {
                     const data = await queue.dequeue(99, 50)
                     if (data.length) {
@@ -310,30 +310,30 @@
             }
         }
 
-        // 播放已缓冲的音频
+        // Phát âm thanh đã được đệm
         async function playBufferedAudio() {
-            // 确保Opus解码器已初始化
+            // Đảm bảo bộ giải mã Opus đã được khởi tạo
             try {
-                // 确保音频上下文存在
+                // Đảm bảo ngữ cảnh âm thanh tồn tại
                 audioContext = getAudioContextInstance();
 
-                // 确保解码器已初始化
+                // Đảm bảo bộ giải mã đã được khởi tạo
                 if (!opusDecoder) {
-                    log('初始化Opus解码器...', 'info');
+                    log('Khởi tạo bộ giải mã Opus...', 'info');
                     try {
                         opusDecoder = await initOpusDecoder();
                         if (!opusDecoder) {
-                            throw new Error('解码器初始化失败');
+                            throw new Error('Khởi tạo bộ giải mã thất bại');
                         }
-                        log('Opus解码器初始化成功', 'success');
+                        log('Khởi tạo bộ giải mã Opus thành công', 'success');
                     } catch (error) {
-                        log('Opus解码器初始化失败: ' + error.message, 'error');
+                        log('Khởi tạo bộ giải mã Opus thất bại: ' + error.message, 'error');
                         isAudioPlaying = false;
                         return;
                     }
                 }
 
-                // 创建流式播放上下文
+                // Tạo ngữ cảnh phát luồng
                 if (!streamingContext) {
                     streamingContext = createStreamingContext(opusDecoder, audioContext, SAMPLE_RATE, CHANNELS, MIN_AUDIO_DURATION);
                 }
@@ -342,7 +342,7 @@
                 streamingContext.startPlaying();
 
             } catch (error) {
-                log(`播放已缓冲的音频出错: ${error.message}`, 'error');
+                log(`Phát âm thanh đã đệm gặp lỗi: ${error.message}`, 'error');
                 isAudioPlaying = false;
                 streamingContext = null;
             }
@@ -350,47 +350,47 @@
 
 
 
-        // 初始化Opus解码器 - 确保完全初始化完成后才返回
+        // Khởi tạo bộ giải mã Opus - đảm bảo hoàn thành khởi tạo hoàn toàn trước khi trả về
         async function initOpusDecoder() {
-            if (opusDecoder) return opusDecoder; // 已经初始化
+            if (opusDecoder) return opusDecoder; // Đã khởi tạo
 
             try {
-                // 检查ModuleInstance是否存在
+                // Kiểm tra xem ModuleInstance có tồn tại không
                 if (typeof window.ModuleInstance === 'undefined') {
                     if (typeof Module !== 'undefined') {
-                        // 使用全局Module作为ModuleInstance
+                        // Sử dụng Module toàn cục làm ModuleInstance
                         window.ModuleInstance = Module;
-                        log('使用全局Module作为ModuleInstance', 'info');
+                        log('Sử dụng Module toàn cục làm ModuleInstance', 'info');
                     } else {
-                        throw new Error('Opus库未加载，ModuleInstance和Module对象都不存在');
+                        throw new Error('Thư viện Opus chưa được tải, cả ModuleInstance và đối tượng Module đều không tồn tại');
                     }
                 }
 
                 const mod = window.ModuleInstance;
 
-                // 创建解码器对象
+                // Tạo đối tượng bộ giải mã
                 opusDecoder = {
                     channels: CHANNELS,
                     rate: SAMPLE_RATE,
                     frameSize: FRAME_SIZE,
                     module: mod,
-                    decoderPtr: null, // 初始为null
+                    decoderPtr: null, // Ban đầu là null
 
-                    // 初始化解码器
+                    // Khởi tạo bộ giải mã
                     init: function () {
-                        if (this.decoderPtr) return true; // 已经初始化
+                        if (this.decoderPtr) return true; // Đã khởi tạo
 
-                        // 获取解码器大小
+                        // Lấy kích thước bộ giải mã
                         const decoderSize = mod._opus_decoder_get_size(this.channels);
-                        log(`Opus解码器大小: ${decoderSize}字节`, 'debug');
+                        log(`Kích thước bộ giải mã Opus: ${decoderSize} byte`, 'debug');
 
-                        // 分配内存
+                        // Phân bổ bộ nhớ
                         this.decoderPtr = mod._malloc(decoderSize);
                         if (!this.decoderPtr) {
-                            throw new Error("无法分配解码器内存");
+                            throw new Error("Không thể phân bổ bộ nhớ cho bộ giải mã");
                         }
 
-                        // 初始化解码器
+                        // Khởi tạo bộ giải mã
                         const err = mod._opus_decoder_init(
                             this.decoderPtr,
                             this.rate,
@@ -398,66 +398,66 @@
                         );
 
                         if (err < 0) {
-                            this.destroy(); // 清理资源
-                            throw new Error(`Opus解码器初始化失败: ${err}`);
+                            this.destroy(); // Dọn dẹp tài nguyên
+                            throw new Error(`Khởi tạo bộ giải mã Opus thất bại: ${err}`);
                         }
 
-                        log("Opus解码器初始化成功", 'success');
+                        log("Khởi tạo bộ giải mã Opus thành công", 'success');
                         return true;
                     },
 
-                    // 解码方法
+                    // Phương thức giải mã
                     decode: function (opusData) {
                         if (!this.decoderPtr) {
                             if (!this.init()) {
-                                throw new Error("解码器未初始化且无法初始化");
+                                throw new Error("Bộ giải mã chưa được khởi tạo và không thể khởi tạo");
                             }
                         }
 
                         try {
                             const mod = this.module;
 
-                            // 为Opus数据分配内存
+                            // Phân bổ bộ nhớ cho dữ liệu Opus
                             const opusPtr = mod._malloc(opusData.length);
                             mod.HEAPU8.set(opusData, opusPtr);
 
-                            // 为PCM输出分配内存
-                            const pcmPtr = mod._malloc(this.frameSize * 2); // Int16 = 2字节
+                            // Phân bổ bộ nhớ cho đầu ra PCM
+                            const pcmPtr = mod._malloc(this.frameSize * 2); // Int16 = 2 byte
 
-                            // 解码
+                            // Giải mã
                             const decodedSamples = mod._opus_decode(
                                 this.decoderPtr,
                                 opusPtr,
                                 opusData.length,
                                 pcmPtr,
                                 this.frameSize,
-                                0 // 不使用FEC
+                                0 // Không sử dụng FEC
                             );
 
                             if (decodedSamples < 0) {
                                 mod._free(opusPtr);
                                 mod._free(pcmPtr);
-                                throw new Error(`Opus解码失败: ${decodedSamples}`);
+                                throw new Error(`Giải mã Opus thất bại: ${decodedSamples}`);
                             }
 
-                            // 复制解码后的数据
+                            // Sao chép dữ liệu đã giải mã
                             const decodedData = new Int16Array(decodedSamples);
                             for (let i = 0; i < decodedSamples; i++) {
                                 decodedData[i] = mod.HEAP16[(pcmPtr >> 1) + i];
                             }
 
-                            // 释放内存
+                            // Giải phóng bộ nhớ
                             mod._free(opusPtr);
                             mod._free(pcmPtr);
 
                             return decodedData;
                         } catch (error) {
-                            log(`Opus解码错误: ${error.message}`, 'error');
+                            log(`Lỗi giải mã Opus: ${error.message}`, 'error');
                             return new Int16Array(0);
                         }
                     },
 
-                    // 销毁方法
+                    // Phương thức hủy
                     destroy: function () {
                         if (this.decoderPtr) {
                             this.module._free(this.decoderPtr);
@@ -466,156 +466,156 @@
                     }
                 };
 
-                // 初始化解码器
+                // Khởi tạo bộ giải mã
                 if (!opusDecoder.init()) {
-                    throw new Error("Opus解码器初始化失败");
+                    throw new Error("Khởi tạo bộ giải mã Opus thất bại");
                 }
 
                 return opusDecoder;
 
             } catch (error) {
-                log(`Opus解码器初始化失败: ${error.message}`, 'error');
-                opusDecoder = null; // 重置为null，以便下次重试
+                log(`Khởi tạo bộ giải mã Opus thất bại: ${error.message}`, 'error');
+                opusDecoder = null; // Đặt lại thành null để thử lại lần sau
                 throw error;
             }
         }
 
-        // 初始化音频录制和处理
+        // Khởi tạo ghi âm và xử lý âm thanh
         async function initAudio() {
             try {
-                // 请求麦克风权限
+                // Yêu cầu quyền truy cập microphone
                 const stream = await navigator.mediaDevices.getUserMedia({
                     audio: {
                         echoCancellation: true,
                         noiseSuppression: true,
-                        sampleRate: 16000,  // 确保16kHz采样率
-                        channelCount: 1     // 确保单声道
+                        sampleRate: 16000,  // Đảm bảo tỷ lệ lấy mẫu 16kHz
+                        channelCount: 1     // Đảm bảo mono
                     }
                 });
-                log('已获取麦克风访问权限', 'success');
+                log('Đã có quyền truy cập microphone', 'success');
 
-                // 创建音频上下文
+                // Tạo ngữ cảnh âm thanh
                 audioContext = getAudioContextInstance();
                 const source = audioContext.createMediaStreamSource(stream);
 
-                // 获取实际音频轨道设置
+                // Lấy cài đặt track âm thanh thực tế
                 const audioTracks = stream.getAudioTracks();
                 if (audioTracks.length > 0) {
                     const track = audioTracks[0];
                     const settings = track.getSettings();
-                    log(`实际麦克风设置 - 采样率: ${settings.sampleRate || '未知'}Hz, 声道数: ${settings.channelCount || '未知'}`, 'info');
+                    log(`Cài đặt microphone thực tế - Tỷ lệ lấy mẫu: ${settings.sampleRate || 'Không rõ'}Hz, Số kênh: ${settings.channelCount || 'Không rõ'}`, 'info');
                 }
 
-                // 创建分析器用于可视化
+                // Tạo bộ phân tích để hiển thị trực quan
                 analyser = audioContext.createAnalyser();
                 analyser.fftSize = 2048;
                 source.connect(analyser);
 
-                // 尝试初始化MediaRecorder，按优先级尝试不同编码选项
+                // Thử khởi tạo MediaRecorder, thử các tùy chọn mã hóa theo độ ưu tiên
                 try {
-                    // 优先尝试使用Opus编码
+                    // Ưu tiên thử sử dụng mã hóa Opus
                     mediaRecorder = new MediaRecorder(stream, {
                         mimeType: 'audio/webm;codecs=opus',
                         audioBitsPerSecond: 16000
                     });
-                    log('已初始化MediaRecorder (使用Opus编码)', 'success');
-                    log(`选择的编码格式: ${mediaRecorder.mimeType}`, 'info');
+                    log('Đã khởi tạo MediaRecorder (sử dụng mã hóa Opus)', 'success');
+                    log(`Định dạng mã hóa được chọn: ${mediaRecorder.mimeType}`, 'info');
                 } catch (e1) {
                     try {
-                        // 如果Opus不支持，尝试MP3
+                        // Nếu Opus không được hỗ trợ, thử MP3
                         mediaRecorder = new MediaRecorder(stream, {
                             mimeType: 'audio/webm',
                             audioBitsPerSecond: 16000
                         });
-                        log('已初始化MediaRecorder (使用WebM标准编码，Opus不支持)', 'warning');
-                        log(`选择的编码格式: ${mediaRecorder.mimeType}`, 'info');
+                        log('Đã khởi tạo MediaRecorder (sử dụng mã hóa chuẩn WebM, Opus không được hỗ trợ)', 'warning');
+                        log(`Định dạng mã hóa được chọn: ${mediaRecorder.mimeType}`, 'info');
                     } catch (e2) {
                         try {
-                            // 尝试其他备选格式
+                            // Thử các định dạng thay thế khác
                             mediaRecorder = new MediaRecorder(stream, {
                                 mimeType: 'audio/ogg;codecs=opus',
                                 audioBitsPerSecond: 16000
                             });
-                            log('已初始化MediaRecorder (使用OGG+Opus编码)', 'warning');
-                            log(`选择的编码格式: ${mediaRecorder.mimeType}`, 'info');
+                            log('Đã khởi tạo MediaRecorder (sử dụng mã hóa OGG+Opus)', 'warning');
+                            log(`Định dạng mã hóa được chọn: ${mediaRecorder.mimeType}`, 'info');
                         } catch (e3) {
-                            // 最后使用默认编码
+                            // Cuối cùng sử dụng mã hóa mặc định
                             mediaRecorder = new MediaRecorder(stream);
-                            log(`已初始化MediaRecorder (使用默认编码: ${mediaRecorder.mimeType})`, 'warning');
+                            log(`Đã khởi tạo MediaRecorder (sử dụng mã hóa mặc định: ${mediaRecorder.mimeType})`, 'warning');
                         }
                     }
                 }
 
-                // 处理录制的数据
+                // Xử lý dữ liệu ghi âm
                 mediaRecorder.ondataavailable = (event) => {
                     if (event.data.size > 0) {
                         audioChunks.push(event.data);
                     }
                 };
 
-                // 录制结束后处理数据
+                // Xử lý dữ liệu sau khi kết thúc ghi âm
                 mediaRecorder.onstop = async () => {
-                    // 停止可视化
+                    // Dừng hiển thị trực quan
                     if (visualizationRequest) {
                         cancelAnimationFrame(visualizationRequest);
                         visualizationRequest = null;
                     }
 
-                    log(`录音结束，已收集的音频块数量: ${audioChunks.length}`, 'info');
+                    log(`Ghi âm kết thúc, số khối âm thanh đã thu thập: ${audioChunks.length}`, 'info');
                     if (audioChunks.length === 0) {
-                        log('警告：没有收集到任何音频数据，请检查麦克风是否工作正常', 'error');
+                        log('Cảnh báo: Không thu thập được dữ liệu âm thanh nào, vui lòng kiểm tra xem microphone có hoạt động bình thường không', 'error');
                         return;
                     }
 
-                    // 创建完整的录音blob
+                    // Tạo blob ghi âm hoàn chỉnh
                     const blob = new Blob(audioChunks, { type: audioChunks[0].type });
-                    log(`已创建音频Blob，MIME类型: ${audioChunks[0].type}，大小: ${(blob.size / 1024).toFixed(2)} KB`, 'info');
+                    log(`Đã tạo Audio Blob, loại MIME: ${audioChunks[0].type}, kích thước: ${(blob.size / 1024).toFixed(2)} KB`, 'info');
 
-                    // 保存原始块，以防清空后需要调试
+                    // Lưu khối gốc, phòng khi cần debug sau khi xóa
                     const chunks = [...audioChunks];
                     audioChunks = [];
 
                     try {
-                        // 将blob转换为ArrayBuffer
+                        // Chuyển đổi blob thành ArrayBuffer
                         const arrayBuffer = await blob.arrayBuffer();
                         const uint8Array = new Uint8Array(arrayBuffer);
 
-                        log(`已转换为Uint8Array，准备发送，大小: ${(arrayBuffer.byteLength / 1024).toFixed(2)} KB`, 'info');
+                        log(`Đã chuyển đổi thành Uint8Array, chuẩn bị gửi, kích thước: ${(arrayBuffer.byteLength / 1024).toFixed(2)} KB`, 'info');
 
-                        // 检查WebSocket状态
+                        // Kiểm tra trạng thái WebSocket
                         if (!websocket) {
-                            log('错误：WebSocket连接不存在', 'error');
+                            log('Lỗi: Kết nối WebSocket không tồn tại', 'error');
                             return;
                         }
 
                         if (websocket.readyState !== WebSocket.OPEN) {
-                            log(`错误：WebSocket连接未打开，当前状态: ${websocket.readyState}`, 'error');
+                            log(`Lỗi: Kết nối WebSocket chưa mở, trạng thái hiện tại: ${websocket.readyState}`, 'error');
                             return;
                         }
 
-                        // 直接发送二进制音频数据 - 这是最简单有效的方式
+                        // Gửi trực tiếp dữ liệu âm thanh nhị phân - đây là cách đơn giản hiệu quả nhất
                         try {
-                            // 注意：开始和结束消息已在录音开始和结束时发送
-                            // 这里只需要发送音频数据
+                            // Lưu ý: Tin nhắn bắt đầu và kết thúc đã được gửi khi bắt đầu và kết thúc ghi âm
+                            // Ở đây chỉ cần gửi dữ liệu âm thanh
                             await new Promise(resolve => setTimeout(resolve, 50));
 
-                            // 处理WebM容器格式，提取纯Opus数据
-                            // 服务器使用opuslib_next.Decoder，需要纯Opus帧
-                            log('正在处理音频数据，提取纯Opus帧...', 'info');
+                            // Xử lý định dạng container WebM, trích xuất dữ liệu Opus thuần
+                            // Máy chủ sử dụng opuslib_next.Decoder, cần khung Opus thuần
+                            log('Đang xử lý dữ liệu âm thanh, trích xuất khung Opus thuần...', 'info');
                             const opusData = extractOpusFrames(uint8Array);
 
-                            // 记录Opus数据大小
-                            log(`已提取Opus数据，大小: ${(opusData.byteLength / 1024).toFixed(2)} KB`, 'info');
+                            // Ghi lại kích thước dữ liệu Opus
+                            log(`Đã trích xuất dữ liệu Opus, kích thước: ${(opusData.byteLength / 1024).toFixed(2)} KB`, 'info');
 
-                            // 发送音频消息第二步：二进制音频数据
+                            // Gửi bước thứ hai tin nhắn âm thanh: dữ liệu âm thanh nhị phân
                             websocket.send(opusData);
-                            log(`已发送Opus音频数据: ${(opusData.byteLength / 1024).toFixed(2)} KB`, 'success');
+                            log(`Đã gửi dữ liệu âm thanh Opus: ${(opusData.byteLength / 1024).toFixed(2)} KB`, 'success');
                         } catch (error) {
-                            log(`音频数据发送失败: ${error.message}`, 'error');
+                            log(`Gửi dữ liệu âm thanh thất bại: ${error.message}`, 'error');
 
-                            // 尝试使用base64编码作为备选方案
+                            // Thử sử dụng mã hóa base64 làm phương án thay thế
                             try {
-                                log('尝试使用base64编码方式发送...', 'info');
+                                log('Thử sử dụng cách gửi mã hóa base64...', 'info');
                                 const base64Data = arrayBufferToBase64(arrayBuffer);
                                 const audioDataMessage = {
                                     type: 'audio',
@@ -628,85 +628,85 @@
                                     data: base64Data
                                 };
                                 websocket.send(JSON.stringify(audioDataMessage));
-                                log(`已使用base64编码发送音频数据: ${(arrayBuffer.byteLength / 1024).toFixed(2)} KB`, 'warning');
+                                log(`Đã sử dụng mã hóa base64 gửi dữ liệu âm thanh: ${(arrayBuffer.byteLength / 1024).toFixed(2)} KB`, 'warning');
                             } catch (base64Error) {
-                                log(`所有数据发送方式均失败: ${base64Error.message}`, 'error');
+                                log(`Tất cả cách gửi dữ liệu đều thất bại: ${base64Error.message}`, 'error');
                             }
                         }
                     } catch (error) {
-                        log(`处理录音数据错误: ${error.message}`, 'error');
+                        log(`Lỗi xử lý dữ liệu ghi âm: ${error.message}`, 'error');
                     }
                 };
 
-                // 尝试初始化Opus解码器
+                // Thử khởi tạo bộ giải mã Opus
                 try {
-                    // 检查ModuleInstance是否存在（本地库导出的全局变量）
+                    // Kiểm tra xem ModuleInstance có tồn tại không (biến toàn cục được xuất từ thư viện cục bộ)
                     if (typeof window.ModuleInstance === 'undefined') {
-                        throw new Error('Opus库未加载，ModuleInstance对象不存在');
+                        throw new Error('Thư viện Opus chưa được tải, đối tượng ModuleInstance không tồn tại');
                     }
 
-                    // 简单测试ModuleInstance是否可用
+                    // Kiểm tra đơn giản xem ModuleInstance có khả dụng không
                     if (typeof window.ModuleInstance._opus_decoder_get_size === 'function') {
                         const testSize = window.ModuleInstance._opus_decoder_get_size(1);
-                        log(`Opus解码器测试成功，解码器大小: ${testSize} 字节`, 'success');
+                        log(`Kiểm tra bộ giải mã Opus thành công, kích thước bộ giải mã: ${testSize} byte`, 'success');
                     } else {
-                        throw new Error('Opus解码函数未找到');
+                        throw new Error('Không tìm thấy hàm giải mã Opus');
                     }
                 } catch (err) {
-                    log(`Opus解码器初始化警告: ${err.message}，将在需要时重试`, 'warning');
+                    log(`Cảnh báo khởi tạo bộ giải mã Opus: ${err.message}, sẽ thử lại khi cần thiết`, 'warning');
                 }
 
-                log('音频系统初始化完成', 'success');
+                log('Hoàn thành khởi tạo hệ thống âm thanh', 'success');
                 return true;
             } catch (error) {
-                log(`音频初始化错误: ${error.message}`, 'error');
+                log(`Lỗi khởi tạo âm thanh: ${error.message}`, 'error');
                 return false;
             }
         }
 
-        // 开始录音
+        // Bắt đầu ghi âm
         function startRecording() {
             if (isRecording) return;
 
             try {
-                // 最小录音时长提示
-                log('请至少录制1-2秒钟的音频，确保采集到足够数据', 'info');
+                // Gợi ý thời gian ghi âm tối thiểu
+                log('Vui lòng ghi âm ít nhất 1-2 giây để đảm bảo thu thập đủ dữ liệu', 'info');
 
-                // 获取服务器类型 - 从URL判断
+                // Lấy loại máy chủ - từ URL để xác định
                 const serverUrl = serverUrlInput.value.trim();
                 let isXiaozhiNative = false;
 
-                // 检查是否是小智原生服务器 (根据URL特征判断)
+                // Kiểm tra có phải máy chủ gốc Xiaozhi không (dựa trên đặc điểm URL)
                 if (serverUrl.includes('xiaozhi') || serverUrl.includes('localhost') || serverUrl.includes('127.0.0.1')) {
                     isXiaozhiNative = true;
-                    log('检测到小智原生服务器，使用标准listen协议', 'info');
+                    log('Phát hiện máy chủ gốc Xiaozhi, sử dụng giao thức listen tiêu chuẩn', 'info');
                 }
 
-                // 使用直接PCM录音和libopus编码的方式
+                // Sử dụng cách ghi âm PCM trực tiếp và mã hóa libopus
                 startDirectRecording();
             } catch (error) {
-                log(`录音启动错误: ${error.message}`, 'error');
+                log(`Lỗi khởi động ghi âm: ${error.message}`, 'error');
             }
         }
 
-        // 停止录音
+        // Dừng ghi âm
         function stopRecording() {
             if (!isRecording) return;
 
             try {
-                // 使用直接PCM录音停止
+                // Sử dụng dừng ghi âm PCM trực tiếp
                 stopDirectRecording();
             } catch (error) {
-                log(`停止录音错误: ${error.message}`, 'error');
+                log(`Lỗi dừng ghi âm: ${error.message}`, 'error');
             }
         }
 
-        // 连接WebSocket服务器
+        // Kết nối máy chủ WebSocket
         async function connectToServer() {
             const url = serverUrlInput.value.trim();
             const config = getConfig();
-            // 先检查OTA状态
-            log('正在检查OTA状态...', 'info');
+            // Trước tiên kiểm tra trạng thái OTA
+            log('Đang kiểm tra trạng thái OTA...', 'info');
             const otaUrl = document.getElementById('otaUrl').value.trim();
             localStorage.setItem('otaUrl', otaUrl);
             localStorage.setItem('wsUrl', url);
